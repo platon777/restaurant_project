@@ -1,0 +1,4 @@
+database = "resto_app"
+user = "platon"
+password = "valdepder"
+default-character-set = utf8
