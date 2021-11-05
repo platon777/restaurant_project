@@ -80,7 +80,7 @@ DATABASES = {
     'default': {
 
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'restaurant_app',
+        'NAME' : 'resto_app',
         'USER': 'root',
         'HOST': 'localhost',
         'PORT' : '3306',
