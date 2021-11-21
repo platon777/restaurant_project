@@ -17,9 +17,7 @@ def employe(request):
 
 
 def commande(request):
-   employes = Employe.objects.all()
-   context  = {'employes':employes}
-   return render(request, 'employe.html',context)
-   """ commandes = Commande.objects.all()
+   
+    commandes = Commande.objects.all()
     context  = {'commandes': commandes}
-    return render(request, 'commande.html',context)"""
+    return render(request, 'commande.html',context)
