@@ -1,0 +1,38 @@
+{% include 'head.html'%}
+
+{% include 'nav.html'%}
+<div class="container"> 
+    {% include 'topside.html' %}  
+   
+    
+    
+
+<div class="row my-4">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">adresse</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employe in employes %}
+                <tr>
+                    <td>{{employe.nom}}</td>
+                    <td>{{employe.prenom}}</td>
+                    <td>{{employe.adresse}}</td>
+                    <td>{{employe.telephone}}</td>
+                </tr>
+               {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>  
+
+</div>
+
+{% include 'foot.html'%}

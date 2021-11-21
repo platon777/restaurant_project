@@ -1,26 +1,38 @@
+
+{% include 'head.html'%}
+
+{% include 'nav.html'%}
+<div class="container"> 
+    {% include 'topside.html' %}  
+
 <div class="row my-4">
     <div class="col-md-4"></div>
     <div class="col-md-8">
         <table class="table bg-white">
             <thead class="bg-info text-white">
                 <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Odered by</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Date cree</th>
+                    <th scope="col">Service</th>
+                    <th scope="col">Table</th>
+                    <!--<th scope="col">Serveur</th>-->
                 </tr>
             </thead>
             <tbody>
-                
+                {% for commande in commandes %}
                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
+                    <td>{{commande.id_commande}}</td>
+                    <td>{{commande.id_date_commande }}</td>
+                    <td>{{commande.id_service}}</td>
+                    <td>{{commande.id_table}}</td>
+                    <td>{{commande.id_serveur}}</td> -->
+                  
                 </tr>
+                {% endfor %}
                
             </tbody>
         </table>
     </div>
 </div>  
 
+{% include 'foot.html'%}

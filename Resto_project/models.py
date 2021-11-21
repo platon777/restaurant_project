@@ -1,94 +1,22 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=150)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
-
-
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
-
-
 class BoissonsCommande(models.Model):
-    id_boissons_diverses = models.OneToOneField('BoissonsDiverses', models.DO_NOTHING, db_column='id_boissons_diverses', primary_key=True)
+    id_categories_boissons = models.OneToOneField('CategoriesBoissons', models.DO_NOTHING, db_column='id_categories_boissons', primary_key=True)
     id_commande = models.ForeignKey('Commande', models.DO_NOTHING, db_column='id_commande')
     quantite = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'boissons_commande'
-        unique_together = (('id_boissons_diverses', 'id_commande'),)
-
-
-class BoissonsDiverses(models.Model):
-    id_boissons_diverses = models.AutoField(primary_key=True)
-    designation = models.CharField(max_length=45)
-    prix_de_vente = models.FloatField()
-
-    class Meta:
-        managed = False
-        db_table = 'boissons_diverses'
+        unique_together = (('id_categories_boissons', 'id_commande'),)
 
 
 class Bouteilles(models.Model):
@@ -105,27 +33,37 @@ class Bouteilles(models.Model):
         unique_together = (('id_bouteille', 'id_vin', 'id_viticulteur'),)
 
 
+class CategoriesBoissons(models.Model):
+    id_categories_boissons = models.AutoField(primary_key=True)
+    designation = models.CharField(max_length=45)
+    prix_de_vente = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = 'categories_boissons'
+
+
 class Commande(models.Model):
     id_commande = models.AutoField(primary_key=True)
     id_date_commande = models.ForeignKey('Date', models.DO_NOTHING, db_column='id_date_commande')
     id_service = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service')
     id_table = models.ForeignKey('Table', models.DO_NOTHING, db_column='id_table')
+    id_serveur = models.ForeignKey('Serveur', models.DO_NOTHING, db_column='id_serveur')
 
     class Meta:
         managed = False
         db_table = 'commande'
-        unique_together = (('id_commande', 'id_date_commande', 'id_service', 'id_table'),)
+        unique_together = (('id_commande', 'id_date_commande', 'id_service', 'id_table', 'id_serveur'),)
 
 
-class CommandeComprendMenu(models.Model):
-    field_id_commande = models.OneToOneField(Commande, models.DO_NOTHING, db_column=' id_commande', primary_key=True)  # Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
-    menu_id_menu = models.ForeignKey('Menu', models.DO_NOTHING, db_column='menu_id_menu')
-    quantite = models.IntegerField()
+class Cuisinier(models.Model):
+    id_cuisinier = models.AutoField(primary_key=True)
+    id_employe = models.ForeignKey('Employe', models.DO_NOTHING, db_column='id_employe')
 
     class Meta:
         managed = False
-        db_table = 'commande_comprend_menu'
-        unique_together = (('field_id_commande', 'menu_id_menu'),)
+        db_table = 'cuisinier'
+        unique_together = (('id_cuisinier', 'id_employe'),)
 
 
 class Date(models.Model):
@@ -156,51 +94,6 @@ class DiplomePossedePar(models.Model):
         unique_together = (('id_diplome', 'id_employe'),)
 
 
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.PositiveSmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
-
-
-class DjangoMigrations(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
-
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-
 class Employe(models.Model):
     id_employe = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=45)
@@ -226,6 +119,17 @@ class Menu(models.Model):
         db_table = 'menu'
 
 
+class MenuCommande(models.Model):
+    field_id_commande = models.OneToOneField(Commande, models.DO_NOTHING, db_column=' id_commande', primary_key=True)  # Field renamed to remove unsuitable characters. Field renamed because it started with '_'.
+    menu_id_menu = models.ForeignKey(Menu, models.DO_NOTHING, db_column='menu_id_menu')
+    quantite = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'menu_commande'
+        unique_together = (('field_id_commande', 'menu_id_menu'),)
+
+
 class Plat(models.Model):
     id_plat = models.AutoField(primary_key=True)
     num_plat = models.IntegerField(blank=True, null=True)
@@ -247,6 +151,16 @@ class PlatMenu(models.Model):
         managed = False
         db_table = 'plat_menu'
         unique_together = (('id_plat', 'id_menu'),)
+
+
+class Serveur(models.Model):
+    id_serveur = models.AutoField(primary_key=True)
+    id_employe = models.ForeignKey(Employe, models.DO_NOTHING, db_column='id_employe')
+
+    class Meta:
+        managed = False
+        db_table = 'serveur'
+        unique_together = (('id_serveur', 'id_employe'),)
 
 
 class Service(models.Model):
