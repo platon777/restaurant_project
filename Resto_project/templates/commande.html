@@ -11,41 +11,66 @@
                     <h4>Ajouter Commande</h4>
                     <hr>
                     <form method="post" action="">
-                        
+                        {% csrf_token %}
                         <div class="form-group ">
                             <label for="inputState">Type commande</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Choisir...</option>
+                            <select id="inputState" name = "type_commande"  class="form-control">
+                                <option selected> Choisir...</option>
                                 <option value="1">plat</option>
                                 <option value="2">boisson</option>
                                 <option value="3">vin</option>
                             </select>
                         </div>
 
+                        
+                           <!-- <div class="container">
+                                <div class="row">
+                                   <div class='col-sm-6'>
+                                      <div class="form-group">
+                                        <label for="datetimepicker2">Date</label> 
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                         </div>
+                                      </div>
+                                   </div>
+                                   
+                                </div>
+                             </div> -->
+
+                        
+
 
                         <div class="form-group ">
                             <label for="inputState">Table</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Choisir...</option>
+                            <select id="inputState" name="id_table" class="form-control">
+                                <option selected >Choisir...</option>
                                 {% for table in tables %}
-                                <option>{{table.num_table}}</option>
+                                <option value = "{{table.id_table}}">{{table.num_table}}</option>
                                 {% endfor %}
                             </select>
                         </div>
 
                         <div class="form-group ">
                             <label for="inputState">Service</label>
-                            <select id="inputState" class="form-control">
+                            <select id="inputState" name ="id_service" class="form-control">
                                 <option selected>Choisir...</option>
-                                <option>Matin</option>
-                                <option>Soir</option>
+                                {% for service in services %}
+                                <option value = "{{service.id_service}}">{{service.type_service}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Serveur</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
+                            <label for="inputState">Serveur</label>
+                            <select name="id_serveur" id="inputState" class="form-control">
+                                <option selected>Choisir...</option>
+                                {% for serveur in serveurs %}
+                                <option value ="{{serveur.id_serveur}}">{{serveur.id_employe}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <!--<div class="form-group">
                             <label for="exampleInputPassword1">Quantite</label>
@@ -72,7 +97,7 @@
             <tbody>
                 {% for commande in commandes %}
                 <tr>
-                    <td>{{commande.id_commande}}</td>
+                    <td>{{commande.id_commande655}}</td>
                     <td>{{commande.id_date_commande }}</td>
                     <td>{{commande.id_service}}</td>
                     <td>{{commande.id_table}}</td>

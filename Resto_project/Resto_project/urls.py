@@ -26,3 +26,6 @@ urlpatterns = [
     path('',include('resto_app.urls')),
     
 ]
+
+"""def __str__(self):
+        return f'commande:{self.id_date_commande.strftime("%b %d %I: %M %p")}'"""
