@@ -49,6 +49,7 @@ class Commande(models.Model):
     id_service = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service')
     id_table = models.ForeignKey('Table', models.DO_NOTHING, db_column='id_table')
     id_serveur = models.ForeignKey('Serveur', models.DO_NOTHING, db_column='id_serveur')
+    type_commande = models.IntegerField()
 
     class Meta:
         managed = False
@@ -143,6 +144,17 @@ class Plat(models.Model):
         unique_together = (('id_plat', 'type_plat_id_type_plat'),)
 
 
+class PlatCommande(models.Model):
+    id_commande = models.OneToOneField(Commande, models.DO_NOTHING, db_column='id_commande', primary_key=True)
+    id_plat = models.ForeignKey(Plat, models.DO_NOTHING, db_column='id_plat')
+    quantite = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'plat_commande'
+        unique_together = (('id_commande', 'id_plat'),)
+
+
 class PlatMenu(models.Model):
     id_plat = models.OneToOneField(Plat, models.DO_NOTHING, db_column='id_plat', primary_key=True)
     id_menu = models.ForeignKey(Menu, models.DO_NOTHING, db_column='id_menu')
@@ -206,6 +218,7 @@ class Vin(models.Model):
 class VinsCommande(models.Model):
     id_vin = models.OneToOneField(Vin, models.DO_NOTHING, db_column='id_vin', primary_key=True)
     id_commande = models.ForeignKey(Commande, models.DO_NOTHING, db_column='id_commande')
+    quantite = models.IntegerField()
 
     class Meta:
         managed = False

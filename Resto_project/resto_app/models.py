@@ -1,3 +1,4 @@
+
 from django.db import models
 
 
@@ -42,6 +43,11 @@ class Commande(models.Model):
     id_service = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service')
     id_table = models.ForeignKey('Table', models.DO_NOTHING, db_column='id_table')
     id_serveur = models.ForeignKey('Serveur', models.DO_NOTHING, db_column='id_serveur')
+    type_commande = models.IntegerField()
+    
+    
+    def __str__(self):
+        return f'commande:{self.id_date_commande.strftime("%b %d %I: %M %p")}'
 
     class Meta:
         managed = False
@@ -61,7 +67,7 @@ class Cuisinier(models.Model):
 
 class Date(models.Model):
     id_date_commande = models.AutoField(primary_key=True)
-    date_commande = models.DateTimeField()
+    date_commande = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
@@ -95,13 +101,13 @@ class Employe(models.Model):
     code_postal = models.CharField(max_length=20)
     ville = models.CharField(max_length=45)
     telephone = models.CharField(max_length=30)
+    
+    def __str__(self):
+        return self.prenom
 
     class Meta:
         managed = False
         db_table = 'employe'
-        
-    def __str__(self):
-        return self.prenom
 
 
 class Menu(models.Model):
@@ -139,6 +145,17 @@ class Plat(models.Model):
         unique_together = (('id_plat', 'type_plat_id_type_plat'),)
 
 
+class PlatCommande(models.Model):
+    id_commande = models.OneToOneField(Commande, models.DO_NOTHING, db_column='id_commande', primary_key=True)
+    id_plat = models.ForeignKey(Plat, models.DO_NOTHING, db_column='id_plat')
+    quantite = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'plat_commande'
+        unique_together = (('id_commande', 'id_plat'),)
+
+
 class PlatMenu(models.Model):
     id_plat = models.OneToOneField(Plat, models.DO_NOTHING, db_column='id_plat', primary_key=True)
     id_menu = models.ForeignKey(Menu, models.DO_NOTHING, db_column='id_menu')
@@ -152,6 +169,9 @@ class PlatMenu(models.Model):
 class Serveur(models.Model):
     id_serveur = models.AutoField(primary_key=True)
     id_employe = models.ForeignKey(Employe, models.DO_NOTHING, db_column='id_employe')
+    
+    def __str__(self):
+        return self.id_employe
 
     class Meta:
         managed = False
@@ -177,6 +197,9 @@ class Table(models.Model):
     class Meta:
         managed = False
         db_table = 'table'
+        
+    def __str__(self):
+        return self.num_table
 
 
 class TypePlat(models.Model):
@@ -202,6 +225,7 @@ class Vin(models.Model):
 class VinsCommande(models.Model):
     id_vin = models.OneToOneField(Vin, models.DO_NOTHING, db_column='id_vin', primary_key=True)
     id_commande = models.ForeignKey(Commande, models.DO_NOTHING, db_column='id_commande')
+    quantite = models.IntegerField()
 
     class Meta:
         managed = False

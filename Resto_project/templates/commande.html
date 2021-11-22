@@ -10,25 +10,50 @@
          <div class="border bg-white p-3">
                     <h4>Ajouter Commande</h4>
                     <hr>
-                    <form action="">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Name</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Quantity</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1">
-                        </div>
+                    <form method="post" action="">
+                        
                         <div class="form-group ">
-                            <label for="inputState">Category</label>
+                            <label for="inputState">Type commande</label>
                             <select id="inputState" class="form-control">
-                                <option selected>Choose...</option>
-                                <option>...</option>
+                                <option selected>Choisir...</option>
+                                <option value="1">plat</option>
+                                <option value="2">boisson</option>
+                                <option value="3">vin</option>
                             </select>
                         </div>
 
-                        <input class="btn btn-success btn-block" type="submit" value="Add Product">
+
+                        <div class="form-group ">
+                            <label for="inputState">Table</label>
+                            <select id="inputState" class="form-control">
+                                <option selected>Choisir...</option>
+                                {% for table in tables %}
+                                <option>{{table.num_table}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="inputState">Service</label>
+                            <select id="inputState" class="form-control">
+                                <option selected>Choisir...</option>
+                                <option>Matin</option>
+                                <option>Soir</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Serveur</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="exampleInputPassword1">Quantite</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1">
+                        </div> -->
+                       
+
+                        <input class="btn btn-success btn-block" type="submit" value="Ajouter Produit">
 
                     </form>
                 </div>

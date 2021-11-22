@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Commande, Employe
+
+from .forms import CommandeForm
+from .models import CategoriesBoissons, Commande, Employe, Plat, Table, Vin
 
 
 # Create your views here.
@@ -19,5 +21,14 @@ def employe(request):
 def commande(request):
    
     commandes = Commande.objects.all()
-    context  = {'commandes': commandes}
+    plats = Plat.objects.all()
+    boissons = CategoriesBoissons.objects.all()
+    tables = Table.objects.all()
+    vins= Vin.objects.all()
+    context  = {'commandes': commandes, 'boissons': boissons, 'vins': vins, 'tables': tables}
+    
+ 
+    
     return render(request, 'commande.html',context)
+
+
