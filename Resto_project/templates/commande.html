@@ -10,9 +10,10 @@
          <div class="border bg-white p-3">
                     <h4>Ajouter Commande</h4>
                     <hr>
-                    <form method="post" action="">
+                    <form method ="POST"   action="{% url 'commande' %}">
                         {% csrf_token %}
-                        <div class="form-group ">
+                        
+                      <!--  <div class="form-group ">
                             <label for="inputState">Type commande</label>
                             <select id="inputState" name = "type_commande"  class="form-control">
                                 <option selected> Choisir...</option>
@@ -20,7 +21,7 @@
                                 <option value="2">boisson</option>
                                 <option value="3">vin</option>
                             </select>
-                        </div>
+                        </div> -->
 
                         
                            <!-- <div class="container">

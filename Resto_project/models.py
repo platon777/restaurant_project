@@ -1,4 +1,10 @@
-
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -39,16 +45,17 @@ class CategoriesBoissons(models.Model):
 
 class Commande(models.Model):
     id_commande = models.AutoField(primary_key=True)
-    id_date_commande = models.ForeignKey('Date', models.DO_NOTHING, db_column='id_date_commande')
     id_service = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service')
     id_table = models.ForeignKey('Table', models.DO_NOTHING, db_column='id_table')
     id_serveur = models.ForeignKey('Serveur', models.DO_NOTHING, db_column='id_serveur')
     type_commande = models.IntegerField()
+    date_id_date = models.ForeignKey('Date', models.DO_NOTHING, db_column='date_id_date')
+    date_commande = models.DateTimeField()
 
     class Meta:
         managed = False
         db_table = 'commande'
-        unique_together = (('id_commande', 'id_date_commande', 'id_service', 'id_table', 'id_serveur'),)
+        unique_together = (('id_commande', 'id_service', 'id_table', 'id_serveur', 'date_id_date'),)
 
 
 class Cuisinier(models.Model):
@@ -62,7 +69,7 @@ class Cuisinier(models.Model):
 
 
 class Date(models.Model):
-    id_date_commande = models.AutoField(primary_key=True)
+    id_date = models.AutoField(primary_key=True)
     date_commande = models.DateTimeField()
 
     class Meta:

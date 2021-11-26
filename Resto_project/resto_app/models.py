@@ -1,5 +1,6 @@
-
 from django.db import models
+from django.utils import timezone
+
 
 
 class BoissonsCommande(models.Model):
@@ -39,20 +40,17 @@ class CategoriesBoissons(models.Model):
 
 class Commande(models.Model):
     id_commande = models.AutoField(primary_key=True)
-    id_date_commande = models.ForeignKey('Date', models.DO_NOTHING, db_column='id_date_commande')
     id_service = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service')
     id_table = models.ForeignKey('Table', models.DO_NOTHING, db_column='id_table')
     id_serveur = models.ForeignKey('Serveur', models.DO_NOTHING, db_column='id_serveur')
     type_commande = models.IntegerField()
-    
-    
-    def __str__(self):
-        return f'commande:{self.id_date_commande.strftime("%b %d %I: %M %p")}'
+    date_id_date = models.ForeignKey('Date', models.DO_NOTHING, db_column='date_id_date')
+    date_commande = models.DateTimeField(default=timezone.now)
 
     class Meta:
         managed = False
         db_table = 'commande'
-        unique_together = (('id_commande', 'id_date_commande', 'id_service', 'id_table', 'id_serveur'),)
+        unique_together = (('id_commande', 'id_service', 'id_table', 'id_serveur', 'date_id_date'),)
 
 
 class Cuisinier(models.Model):
@@ -66,8 +64,8 @@ class Cuisinier(models.Model):
 
 
 class Date(models.Model):
-    id_date_commande = models.AutoField(primary_key=True)
-    date_commande = models.DateTimeField(auto_now_add=True)
+    id_date = models.AutoField(primary_key=True)
+    date_commande = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -101,13 +99,13 @@ class Employe(models.Model):
     code_postal = models.CharField(max_length=20)
     ville = models.CharField(max_length=45)
     telephone = models.CharField(max_length=30)
-    
-    def __str__(self):
-        return self.prenom
 
     class Meta:
         managed = False
         db_table = 'employe'
+        
+    def __str__(self):
+        return '{nom} {prenom}'.format(nom = self.nom, prenom = self.prenom)
 
 
 class Menu(models.Model):
@@ -169,20 +167,24 @@ class PlatMenu(models.Model):
 class Serveur(models.Model):
     id_serveur = models.AutoField(primary_key=True)
     id_employe = models.ForeignKey(Employe, models.DO_NOTHING, db_column='id_employe')
-    
-    def __str__(self):
-        return self.id_employe
 
     class Meta:
         managed = False
         db_table = 'serveur'
         unique_together = (('id_serveur', 'id_employe'),)
+        
+        
+    def __str__(self):
+        return '{employe}'.format(employe =  self.id_employe)
 
 
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True)
     type_service = models.CharField(max_length=45)
     designation_service = models.CharField(max_length=45)
+    
+    def __str__(self):
+        return self.type_service
 
     class Meta:
         managed = False
@@ -198,8 +200,11 @@ class Table(models.Model):
         managed = False
         db_table = 'table'
         
+        
     def __str__(self):
-        return self.num_table
+        return "table no :{num}".format(num = self.num_table)
+        
+    
 
 
 class TypePlat(models.Model):

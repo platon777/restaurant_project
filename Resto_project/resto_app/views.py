@@ -28,8 +28,9 @@ def commande(request):
     serveurs = Serveur.objects.all()
     services = Service.objects.all()
     context  = {'commandes': commandes, 'boissons': boissons, 'vins': vins, 'tables': tables, 'serveurs': serveurs, 'services': services}
-    
+    print("ok")
     if request.method == 'POST':
+        
         form = CommandeForm(request.POST)
         if form.is_valid():
             

@@ -4,5 +4,5 @@ from .models import Commande
 class CommandeForm(ModelForm):
     class Meta:
         model = Commande
-        fields = ['type_commande', 'id_serveur','id_table','id_service',]
+        fields = [  'date_commande','id_serveur','id_table','id_service',]
         
