@@ -74,6 +74,11 @@ class Date(models.Model):
 
 class Diplome(models.Model):
     id_diplome = models.AutoField(primary_key=True)
+    designation = models.CharField(max_length=45)
+    
+    
+    def __str__(self):
+        return self.designation
 
     class Meta:
         managed = False
@@ -214,6 +219,10 @@ class TypePlat(models.Model):
     class Meta:
         managed = False
         db_table = 'type_plat'
+        
+        
+    def __str__(self):
+        return self.designation_type_plat
 
 
 class Vin(models.Model):
@@ -221,10 +230,17 @@ class Vin(models.Model):
     num_vin = models.IntegerField(blank=True, null=True)
     millesime = models.IntegerField()
     prix_de_vente = models.FloatField()
+    nom_vin = models.CharField(max_length=45)
 
     class Meta:
         managed = False
         db_table = 'vin'
+        
+    
+    def __str__(self):
+        return self.nom_vin
+        
+        
 
 
 class VinsCommande(models.Model):
@@ -250,3 +266,9 @@ class Viticulteur(models.Model):
     class Meta:
         managed = False
         db_table = 'viticulteur'
+        
+        
+    def __str__(self):
+        return '{nom} {prenom}'.format(nom = self.nom_viticulteur, prenom = self.prenom_viticulteur)
+        
+    
